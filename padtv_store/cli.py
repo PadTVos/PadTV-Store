@@ -5,6 +5,7 @@ import subprocess
 import sys
 from .catalog import load
 from .providers import FlatpakProvider, GooglePlayProvider, status
+from .github import GitHubProvider
 
 def main():
     parser = argparse.ArgumentParser()
@@ -19,9 +20,9 @@ def main():
             if not sys.platform.startswith('linux'):
                 raise RuntimeError('Instalace je dostupná pouze v PadTV OS.')
             product = next((p for p in products if p.id == args.app_id), None)
-            if not product or not product.installable or product.kind not in ('flatpak', 'android'):
+            if not product or not product.installable or product.kind not in ('flatpak', 'android', 'padbridge'):
                 raise ValueError('Tuto aplikaci nelze instalovat tímto poskytovatelem.')
-            provider = GooglePlayProvider() if product.kind == 'android' else FlatpakProvider()
+            provider = GitHubProvider() if product.kind == 'padbridge' else GooglePlayProvider() if product.kind == 'android' else FlatpakProvider()
             result = {'id': product.id, **(getattr(provider, args.action)(product) or {})}
         print(json.dumps({'ok': True, **result}), flush=True)
         return 0

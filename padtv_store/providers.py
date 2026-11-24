@@ -70,6 +70,12 @@ def status(products):
         return {'flatpak': [], 'apt': [], 'error': 'Instalace linuxových aplikací je dostupná v PadTV OS.'}
     result = {'flatpak': [], 'apt': [], 'android': [], 'android_known': False, 'error': ''}
     try:
+        from .github import GitHubProvider
+        bridge = GitHubProvider().inventory()
+        result.update(padbridge=[a['package'] for a in bridge], padbridge_apps=bridge, padbridge_known=True)
+    except (OSError, ValueError, RuntimeError, subprocess.TimeoutExpired) as error:
+        result.update(padbridge=[], padbridge_known=False, padbridge_error=str(error))
+    try:
         android = GooglePlayProvider().inventory()
         result.update(android=android.get('packages', []), android_known=android.get('known', False),
                       google_play=android.get('google_play', False), android_initialized=android.get('initialized', False))

@@ -55,11 +55,11 @@ class PadBridgeMixin:
             self.toast('Instalace APK je dostupná v PadTV OS. Náhled Windows Android nespouští.')
             return
         if not isinstance(path,str):
-            dialog=ChoiceDialog(self,'Android runtime','PadBridge je preferovaný experimentální runtime. Waydroid používá samostatné prostředí a samostatná data.',[('Zpět',0),('PadBridge 0.2',1),('Waydroid · záloha',2)])
+            dialog=ChoiceDialog(self,'Android runtime','PadBridge je preferovaný experimentální runtime. Waydroid používá samostatné prostředí a samostatná data.',[('Zpět',0),('PadBridge 0.3',1),('Waydroid · záloha',2)])
             runtime=dialog.exec();dialog.deleteLater()
             if runtime==2:self.install_waydroid_apk();return
             if runtime!=1:return
-            paths,_=QFileDialog.getOpenFileNames(self,'Instalovat APK / sadu split APK',str(Path.home()),'Android aplikace (*.apk *.apks)')
+            paths,_=QFileDialog.getOpenFileNames(self,'Instalovat APK / sadu split APK',str(Path.home()),'Android aplikace (*.apk *.apks *.apkm)')
         else:paths=[path]
         if not paths:return
         def inspected(result):
@@ -115,7 +115,7 @@ class PadBridgeMixin:
     def bridge_diagnostics(self,app):
         from .ui import ChoiceDialog
         def loaded(result):
-            diagnostic=result['diagnostics'];message='PadBridge 0.2 · Enjarify / OpenJDK\n'
+            diagnostic=result['diagnostics'];message='PadBridge 0.3 · Enjarify / OpenJDK\n'
             message+='Statická analýza nenahrazuje ověření skutečným spuštěním.\n'
             message+='Chybějící API: '+(', '.join(diagnostic['unsupported_classes'][:25]) or 'nenalezené podle názvů tříd')
             message+='\nNativní knihovny: '+(', '.join(diagnostic['native_libraries'][:12]) or 'žádné')

@@ -2,7 +2,7 @@
 import json
 import sys
 from PyQt6.QtCore import QProcess
-from padtv_store.catalog import load, SOURCES
+from padtv_store.catalog import load, SOURCES, COMPATIBILITY
 from .apps import UserApp
 
 class StoreMixin:
@@ -15,6 +15,8 @@ class StoreMixin:
         self.store_busy = ''
 
     def product_app(self, product):
+        if product.kind == 'padbridge':
+            return UserApp('padbridge.'+product.target,product.title,'padbridge',product.target,product.symbol,product.color)
         return UserApp(product.id, product.title, product.kind, product.target, product.symbol, product.color)
 
     def product_installed(self, product):
@@ -38,7 +40,8 @@ class StoreMixin:
             self.toast('Probíhá správa aplikace. Počkejte na dokončení.')
             return
         message = product.description + '\n\nZdroj: ' + SOURCES[product.source]
-        if product.compatibility:message+='\n\nKompatibilita: '+product.compatibility
+        message+='\n\nKompatibilita: '+COMPATIBILITY[product.compatibility_status]
+        if product.compatibility:message+='\n'+product.compatibility
         choices = [('Zpět', 0)]
         installed = self.product_installed(product)
         if product.kind == 'apt':
@@ -102,7 +105,7 @@ class StoreMixin:
             self.toast(product.title + (' je přidané do aplikací.' if install else ' je odinstalované.'))
             return
         if self.preview:
-            self.toast('Náhled · aplikace z Flathubu a Google Play se instalují v PadTV OS.')
+            self.toast('Náhled · aplikace z GitHubu, Flathubu a Google Play se instalují v PadTV OS.')
             return
         self.store_busy = product.title
         def done(result):
@@ -135,7 +138,8 @@ class StoreMixin:
                 self.store_native = result
                 # Reconcile external native installs/removals without faking state.
                 for product in self.products:
-                    if (product.kind == 'flatpak' and not result.get('error')
+                    if (product.kind == 'padbridge' and result.get('padbridge_known')
+                            or product.kind == 'flatpak' and not result.get('error')
                             or product.kind == 'android' and result.get('android_known') and not result.get('android_error')):
                         app = self.product_app(product)
                         if product.kind == 'android':
@@ -191,7 +195,7 @@ class StoreMixin:
             'Web Apps · webové služby v samostatném okně\nFlathub · uživatelské linuxové aplikace\n'
             'PadBridge · místní podepsaná APK, experimentální kompatibilita\n'
             'Google Play · Android TV aplikace; vyžaduje Android s Google Play a přihlášení\n'
-            'Debian APT · součásti systému\nGitHub · vlastní aplikace PadTV, zatím nepřipojeno\n'
+            'Debian APT · součásti systému\nGitHub · APK z vydání, kontrola SHA-256 a podpisu, běh přes PadBridge\n'
             'PadTV Repository · komunitní aplikace, zatím nepřipojeno', [('Zpět', 0)])
         dialog.exec()
         dialog.deleteLater()

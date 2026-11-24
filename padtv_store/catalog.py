@@ -11,6 +11,8 @@ ID = re.compile(r'[a-zA-Z][a-zA-Z0-9_.-]{0,127}\Z')
 FLATPAK = re.compile(r'[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_-]*){2,}\Z')
 APT = re.compile(r'[a-z0-9][a-z0-9+.-]+\Z')
 ANDROID = re.compile(r'[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)+\Z')
+COMPATIBILITY = {'full':'Plně funkční','partial':'Částečně funkční','experimental':'Experimentální',
+                 'unsupported':'Nepodporované','untested':'Neotestované'}
 
 @dataclass(frozen=True)
 class Product:
@@ -24,12 +26,17 @@ class Product:
     symbol: str = 'apps'
     color: str = '#e5eff5'
     compatibility: str = ''
+    compatibility_status: str = 'untested'
+    download_url: str = ''
+    sha256: str = ''
+    signer_sha256: str = ''
+    download_size: int = 0
 
     @property
     def installable(self):
         # Remote community / GitHub executable distribution requires a signed,
         # explicitly configured repository; do not trust arbitrary catalog URLs.
-        return (self.source, self.kind) in {('web', 'web'), ('flathub', 'flatpak'), ('google-play', 'android')}
+        return (self.source, self.kind) in {('web', 'web'), ('flathub', 'flatpak'), ('google-play', 'android'), ('github','padbridge')}
 
 def validate(product):
     if not ID.fullmatch(product.id) or not product.title.strip() or len(product.title) > 120:
@@ -38,6 +45,8 @@ def validate(product):
         raise ValueError('Neplatný zdroj aplikace.')
     if not isinstance(product.compatibility,str) or len(product.compatibility)>2000:
         raise ValueError('Neplatný popis kompatibility.')
+    if product.compatibility_status not in COMPATIBILITY:
+        raise ValueError('Neplatný stav kompatibility.')
     if product.kind == 'web':
         url = urlsplit(product.target)
         if url.scheme != 'https' or not url.hostname or url.username or url.password:
@@ -51,6 +60,15 @@ def validate(product):
     elif product.kind == 'android':
         if product.source != 'google-play' or not ANDROID.fullmatch(product.target):
             raise ValueError('Neplatná aplikace Google Play.')
+    elif product.kind == 'padbridge':
+        if product.source != 'github' or not ANDROID.fullmatch(product.target):
+            raise ValueError('Neplatná aplikace GitHub / PadBridge.')
+        if not re.fullmatch(r'https://github\.com/[A-Za-z0-9_-]+/[A-Za-z0-9_.-]+/releases/download/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\.apk',product.download_url):
+            raise ValueError('GitHub aplikace vyžaduje pevnou adresu vydaného APK.')
+        if any(not re.fullmatch('[a-f0-9]{64}',s) for s in (product.sha256,product.signer_sha256)):
+            raise ValueError('Chybí důvěryhodný SHA-256 souboru nebo podpisu APK.')
+        if type(product.download_size) is not int or not 0 < product.download_size <= 512*1024*1024:
+            raise ValueError('Neplatná velikost stahovaného APK.')
     else:
         raise ValueError('Nepodporovaný formát aplikace.')
     if (product.source == 'web' and product.kind != 'web'

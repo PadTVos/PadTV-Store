@@ -1,7 +1,24 @@
 {
   "schema_version": 1,
-  "version": "0.5.0",
+  "version": "0.6.0",
   "apps": [
+    {
+      "id": "padbridge-runtime-probe",
+      "title": "PadBridge Runtime Probe",
+      "kind": "padbridge",
+      "source": "github",
+      "target": "org.padtv.runtimeprobe",
+      "category": "Nástroje",
+      "description": "Testovací aplikace PadTV: skutečný Java DEX, XML rozhraní, tlačítka, SQLite a soukromá data. Stahuje se z GitHub Releases.",
+      "symbol": "apps",
+      "color": "#a6aaff",
+      "compatibility_status": "experimental",
+      "compatibility": "Ověřená testovací aplikace PadBridge. Nevyžaduje Waydroid ani Google Play.",
+      "download_url": "https://github.com/PadTVos/PadBridge/releases/download/store-test-1/PadBridge-Runtime-Probe.apk",
+      "sha256": "6bc1badb2aa449c83101ede2dd9829ef444d6a8d896ee021c12ca14deb5b43f8",
+      "signer_sha256": "cfd2d522b2fe3b87e7fb0c8a33f7307eb0a5e2ae9600bef053353db1554ed51f",
+      "download_size": 21004
+    },
     {
       "id": "youtube-tv",
       "title": "YouTube pro Android TV",
@@ -12,7 +29,8 @@
       "description": "Oficiální televizní aplikace od Google LLC. Instalaci dokončíte v Google Play; vyžaduje připravený Android s Google Play, přihlášení a kompatibilní zařízení.",
       "symbol": "play",
       "color": "#ff2435",
-      "compatibility": "PadBridge 0.2: neověřeno — původní APK z oprávněného zdroje nebylo k dispozici. Google Play používá oddělený Waydroid. GMS, DRM a certifikace nejsou v PadBridge implementované; přehrávání nelze slíbit."
+      "compatibility": "Dodaný balíček obsahuje 32bitové x86 nativní Android knihovny. Tento ABI není v PadBridge podporovaný. GMS, Widevine a chráněné přehrávání nejsou implementované. Podrobný výsledek je v databázi kompatibility. Funkčnost aplikace: neověřeno.",
+      "compatibility_status": "unsupported"
     },
     {
       "id": "netflix-tv",
@@ -24,7 +42,8 @@
       "description": "Oficiální televizní aplikace od Netflix, Inc. Vyžaduje předplatné a podporované zařízení. Google Play ji nemusí ve Waydroidu nabídnout; funkčnost DRM a přehrávání není ověřená.",
       "symbol": "netflix",
       "color": "#e50914",
-      "compatibility": "PadBridge 0.2: neověřeno — původní APK z oprávněného zdroje nebylo k dispozici. Google Play používá oddělený Waydroid. GMS, DRM a certifikace nejsou v PadBridge implementované; přehrávání nelze slíbit."
+      "compatibility": "Dodaný balíček obsahuje ARMv7 nativní Android knihovny. Tento ABI není v PadBridge podporovaný. GMS, Widevine a chráněné přehrávání nejsou implementované. Podrobný výsledek je v databázi kompatibility. Funkčnost aplikace: neověřeno.",
+      "compatibility_status": "unsupported"
     },
     {
       "id": "youtube",
@@ -36,7 +55,8 @@
       "description": "Videa a živé přenosy. Běžná odinstalovatelná webová aplikace.",
       "symbol": "play",
       "color": "#ff2435",
-      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli.",
+      "compatibility_status": "untested"
     },
     {
       "id": "netflix",
@@ -48,7 +68,8 @@
       "description": "Filmy a seriály. Vyžaduje účet; přehrávání závisí na podpoře DRM v prohlížeči.",
       "symbol": "netflix",
       "color": "#e50914",
-      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli.",
+      "compatibility_status": "untested"
     },
     {
       "id": "disney",
@@ -60,7 +81,8 @@
       "description": "Filmy a seriály pro celou rodinu. Vyžaduje účet a podporované DRM.",
       "symbol": "video",
       "color": "#74b9ff",
-      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli.",
+      "compatibility_status": "untested"
     },
     {
       "id": "primevideo",
@@ -72,7 +94,8 @@
       "description": "Webová služba Prime Video. Vyžaduje účet a podporované DRM.",
       "symbol": "video",
       "color": "#36bdff",
-      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli.",
+      "compatibility_status": "untested"
     },
     {
       "id": "plex",
@@ -84,7 +107,8 @@
       "description": "Osobní mediální knihovna a streamování.",
       "symbol": "video",
       "color": "#e5a826",
-      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli.",
+      "compatibility_status": "untested"
     },
     {
       "id": "spotify",
@@ -96,7 +120,8 @@
       "description": "Hudba a podcasty ve webovém přehrávači. Některé funkce vyžadují účet a DRM.",
       "symbol": "audio",
       "color": "#1ed760",
-      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli.",
+      "compatibility_status": "untested"
     },
     {
       "id": "twitch",
@@ -108,7 +133,8 @@
       "description": "Živé přenosy a herní komunity.",
       "symbol": "video",
       "color": "#b889fa",
-      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli.",
+      "compatibility_status": "untested"
     },
     {
       "id": "geforcenow",
@@ -120,7 +146,8 @@
       "description": "Cloudové hraní. Dostupnost závisí na účtu, prohlížeči a podpoře zařízení poskytovatelem.",
       "symbol": "apps",
       "color": "#8bd65a",
-      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli.",
+      "compatibility_status": "untested"
     },
     {
       "id": "vlc",
@@ -132,7 +159,8 @@
       "description": "Přehrávač videa, hudby a síťových přenosů.",
       "symbol": "play",
       "color": "#ffaa55",
-      "compatibility": "Linuxová aplikace z Flathubu. Vydání 0.5 znovu neověřovalo všechny aplikace ani ovládání televizním ovladačem."
+      "compatibility": "Linuxová aplikace z Flathubu. Vydání 0.5 znovu neověřovalo všechny aplikace ani ovládání televizním ovladačem.",
+      "compatibility_status": "untested"
     },
     {
       "id": "soundcloud",
@@ -144,7 +172,8 @@
       "description": "Hudba a interpreti z celého světa.",
       "symbol": "audio",
       "color": "#ff874d",
-      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli.",
+      "compatibility_status": "untested"
     },
     {
       "id": "system-browser",
@@ -156,7 +185,8 @@
       "description": "Prohlížeč a běhové prostředí webových aplikací. Balíček spravuje operační systém.",
       "symbol": "globe",
       "color": "#c1d8ec",
-      "compatibility": "Součást Debianového systému PadTV."
+      "compatibility": "Součást Debianového systému PadTV.",
+      "compatibility_status": "untested"
     }
   ]
 }
