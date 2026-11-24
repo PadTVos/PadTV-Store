@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "version": "0.3.3",
+  "apps": [
+    {
+      "id": "youtube-tv",
+      "title": "YouTube pro Android TV",
+      "kind": "android",
+      "target": "com.google.android.youtube.tv",
+      "source": "google-play",
+      "category": "Filmy a TV",
+      "description": "Oficiální televizní aplikace od Google LLC. Instalaci dokončíte v Google Play; vyžaduje připravený Android s Google Play, přihlášení a kompatibilní zařízení.",
+      "symbol": "play",
+      "color": "#ff2435"
+    },
+    {
+      "id": "netflix-tv",
+      "title": "Netflix pro Android TV",
+      "kind": "android",
+      "target": "com.netflix.ninja",
+      "source": "google-play",
+      "category": "Filmy a TV",
+      "description": "Oficiální televizní aplikace od Netflix, Inc. Vyžaduje předplatné a podporované zařízení. Google Play ji nemusí ve Waydroidu nabídnout; funkčnost DRM a přehrávání není ověřená.",
+      "symbol": "netflix",
+      "color": "#e50914"
+    },
+    {
+      "id": "youtube",
+      "title": "YouTube · web",
+      "kind": "web",
+      "target": "https://www.youtube.com/",
+      "source": "web",
+      "category": "Filmy a TV",
+      "description": "Videa a živé přenosy. Běžná odinstalovatelná webová aplikace.",
+      "symbol": "play",
+      "color": "#ff2435"
+    },
+    {
+      "id": "netflix",
+      "title": "Netflix · web",
+      "kind": "web",
+      "target": "https://www.netflix.com/",
+      "source": "web",
+      "category": "Filmy a TV",
+      "description": "Filmy a seriály. Vyžaduje účet; přehrávání závisí na podpoře DRM v prohlížeči.",
+      "symbol": "netflix",
+      "color": "#e50914"
+    },
+    {
+      "id": "disney",
+      "title": "Disney+",
+      "kind": "web",
+      "target": "https://www.disneyplus.com/",
+      "source": "web",
+      "category": "Filmy a TV",
+      "description": "Filmy a seriály pro celou rodinu. Vyžaduje účet a podporované DRM.",
+      "symbol": "video",
+      "color": "#74b9ff"
+    },
+    {
+      "id": "primevideo",
+      "title": "Prime Video",
+      "kind": "web",
+      "target": "https://www.primevideo.com/",
+      "source": "web",
+      "category": "Filmy a TV",
+      "description": "Webová služba Prime Video. Vyžaduje účet a podporované DRM.",
+      "symbol": "video",
+      "color": "#36bdff"
+    },
+    {
+      "id": "plex",
+      "title": "Plex",
+      "kind": "web",
+      "target": "https://app.plex.tv/",
+      "source": "web",
+      "category": "Filmy a TV",
+      "description": "Osobní mediální knihovna a streamování.",
+      "symbol": "video",
+      "color": "#e5a826"
+    },
+    {
+      "id": "spotify",
+      "title": "Spotify",
+      "kind": "web",
+      "target": "https://open.spotify.com/",
+      "source": "web",
+      "category": "Hudba",
+      "description": "Hudba a podcasty ve webovém přehrávači. Některé funkce vyžadují účet a DRM.",
+      "symbol": "audio",
+      "color": "#1ed760"
+    },
+    {
+      "id": "twitch",
+      "title": "Twitch",
+      "kind": "web",
+      "target": "https://www.twitch.tv/",
+      "source": "web",
+      "category": "Zábava",
+      "description": "Živé přenosy a herní komunity.",
+      "symbol": "video",
+      "color": "#b889fa"
+    },
+    {
+      "id": "geforcenow",
+      "title": "GeForce NOW",
+      "kind": "web",
+      "target": "https://play.geforcenow.com/",
+      "source": "web",
+      "category": "Zábava",
+      "description": "Cloudové hraní. Dostupnost závisí na účtu, prohlížeči a podpoře zařízení poskytovatelem.",
+      "symbol": "apps",
+      "color": "#8bd65a"
+    },
+    {
+      "id": "vlc",
+      "title": "VLC",
+      "kind": "flatpak",
+      "target": "org.videolan.VLC",
+      "source": "flathub",
+      "category": "Nástroje",
+      "description": "Přehrávač videa, hudby a síťových přenosů.",
+      "symbol": "play",
+      "color": "#ffaa55"
+    },
+    {
+      "id": "soundcloud",
+      "title": "SoundCloud",
+      "kind": "web",
+      "target": "https://soundcloud.com/",
+      "source": "web",
+      "category": "Hudba",
+      "description": "Hudba a interpreti z celého světa.",
+      "symbol": "audio",
+      "color": "#ff874d"
+    },
+    {
+      "id": "system-browser",
+      "title": "Prohlížeč",
+      "kind": "apt",
+      "target": "chromium",
+      "source": "apt",
+      "category": "Systém",
+      "description": "Prohlížeč a běhové prostředí webových aplikací. Balíček spravuje operační systém.",
+      "symbol": "globe",
+      "color": "#c1d8ec"
+    }
+  ]
+}
