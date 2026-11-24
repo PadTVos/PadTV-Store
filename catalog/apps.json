@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "0.3.3",
+  "version": "0.5.0",
   "apps": [
     {
       "id": "youtube-tv",
@@ -11,7 +11,8 @@
       "category": "Filmy a TV",
       "description": "Oficiální televizní aplikace od Google LLC. Instalaci dokončíte v Google Play; vyžaduje připravený Android s Google Play, přihlášení a kompatibilní zařízení.",
       "symbol": "play",
-      "color": "#ff2435"
+      "color": "#ff2435",
+      "compatibility": "PadBridge 0.2: neověřeno — původní APK z oprávněného zdroje nebylo k dispozici. Google Play používá oddělený Waydroid. GMS, DRM a certifikace nejsou v PadBridge implementované; přehrávání nelze slíbit."
     },
     {
       "id": "netflix-tv",
@@ -22,7 +23,8 @@
       "category": "Filmy a TV",
       "description": "Oficiální televizní aplikace od Netflix, Inc. Vyžaduje předplatné a podporované zařízení. Google Play ji nemusí ve Waydroidu nabídnout; funkčnost DRM a přehrávání není ověřená.",
       "symbol": "netflix",
-      "color": "#e50914"
+      "color": "#e50914",
+      "compatibility": "PadBridge 0.2: neověřeno — původní APK z oprávněného zdroje nebylo k dispozici. Google Play používá oddělený Waydroid. GMS, DRM a certifikace nejsou v PadBridge implementované; přehrávání nelze slíbit."
     },
     {
       "id": "youtube",
@@ -33,7 +35,8 @@
       "category": "Filmy a TV",
       "description": "Videa a živé přenosy. Běžná odinstalovatelná webová aplikace.",
       "symbol": "play",
-      "color": "#ff2435"
+      "color": "#ff2435",
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
     },
     {
       "id": "netflix",
@@ -44,7 +47,8 @@
       "category": "Filmy a TV",
       "description": "Filmy a seriály. Vyžaduje účet; přehrávání závisí na podpoře DRM v prohlížeči.",
       "symbol": "netflix",
-      "color": "#e50914"
+      "color": "#e50914",
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
     },
     {
       "id": "disney",
@@ -55,7 +59,8 @@
       "category": "Filmy a TV",
       "description": "Filmy a seriály pro celou rodinu. Vyžaduje účet a podporované DRM.",
       "symbol": "video",
-      "color": "#74b9ff"
+      "color": "#74b9ff",
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
     },
     {
       "id": "primevideo",
@@ -66,7 +71,8 @@
       "category": "Filmy a TV",
       "description": "Webová služba Prime Video. Vyžaduje účet a podporované DRM.",
       "symbol": "video",
-      "color": "#36bdff"
+      "color": "#36bdff",
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
     },
     {
       "id": "plex",
@@ -77,7 +83,8 @@
       "category": "Filmy a TV",
       "description": "Osobní mediální knihovna a streamování.",
       "symbol": "video",
-      "color": "#e5a826"
+      "color": "#e5a826",
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
     },
     {
       "id": "spotify",
@@ -88,7 +95,8 @@
       "category": "Hudba",
       "description": "Hudba a podcasty ve webovém přehrávači. Některé funkce vyžadují účet a DRM.",
       "symbol": "audio",
-      "color": "#1ed760"
+      "color": "#1ed760",
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
     },
     {
       "id": "twitch",
@@ -99,7 +107,8 @@
       "category": "Zábava",
       "description": "Živé přenosy a herní komunity.",
       "symbol": "video",
-      "color": "#b889fa"
+      "color": "#b889fa",
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
     },
     {
       "id": "geforcenow",
@@ -110,7 +119,8 @@
       "category": "Zábava",
       "description": "Cloudové hraní. Dostupnost závisí na účtu, prohlížeči a podpoře zařízení poskytovatelem.",
       "symbol": "apps",
-      "color": "#8bd65a"
+      "color": "#8bd65a",
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
     },
     {
       "id": "vlc",
@@ -121,7 +131,8 @@
       "category": "Nástroje",
       "description": "Přehrávač videa, hudby a síťových přenosů.",
       "symbol": "play",
-      "color": "#ffaa55"
+      "color": "#ffaa55",
+      "compatibility": "Linuxová aplikace z Flathubu. Vydání 0.5 znovu neověřovalo všechny aplikace ani ovládání televizním ovladačem."
     },
     {
       "id": "soundcloud",
@@ -132,7 +143,8 @@
       "category": "Hudba",
       "description": "Hudba a interpreti z celého světa.",
       "symbol": "audio",
-      "color": "#ff874d"
+      "color": "#ff874d",
+      "compatibility": "Webová aplikace v prohlížeči PadTV. Vyžaduje síť; dostupnost služby, přihlášení a chráněné video závisejí na jejím poskytovateli."
     },
     {
       "id": "system-browser",
@@ -143,7 +155,8 @@
       "category": "Systém",
       "description": "Prohlížeč a běhové prostředí webových aplikací. Balíček spravuje operační systém.",
       "symbol": "globe",
-      "color": "#c1d8ec"
+      "color": "#c1d8ec",
+      "compatibility": "Součást Debianového systému PadTV."
     }
   ]
 }

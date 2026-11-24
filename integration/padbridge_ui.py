@@ -10,7 +10,7 @@ def bridge_root():
     return Path(os.environ.get('XDG_DATA_HOME',Path.home()/'.local/share'))/'padbridge'
 
 def bridge_app(meta):
-    package=meta['package'];digest=meta['sha256']
+    package=meta['package'];digest=meta.get('installation_id') or meta['sha256']
     if not PACKAGE.fullmatch(package) or len(digest)!=64 or any(c not in '0123456789abcdef' for c in digest):
         raise ValueError('Neplatná metadata PadBridge.')
     icon=bridge_root()/'packages'/package/digest/'icon'
@@ -55,24 +55,30 @@ class PadBridgeMixin:
             self.toast('Instalace APK je dostupná v PadTV OS. Náhled Windows Android nespouští.')
             return
         if not isinstance(path,str):
-            path,_=QFileDialog.getOpenFileName(self,'Instalovat APK přes PadBridge',str(Path.home()),'Android aplikace (*.apk)')
-        if not path:return
+            dialog=ChoiceDialog(self,'Android runtime','PadBridge je preferovaný experimentální runtime. Waydroid používá samostatné prostředí a samostatná data.',[('Zpět',0),('PadBridge 0.2',1),('Waydroid · záloha',2)])
+            runtime=dialog.exec();dialog.deleteLater()
+            if runtime==2:self.install_waydroid_apk();return
+            if runtime!=1:return
+            paths,_=QFileDialog.getOpenFileNames(self,'Instalovat APK / sadu split APK',str(Path.home()),'Android aplikace (*.apk *.apks)')
+        else:paths=[path]
+        if not paths:return
         def inspected(result):
             meta=result['app'];diagnostic=result['diagnostics']
             message=f"{meta['title']}\n{meta['package']} · {meta['version_name']}\nPodpis SHA-256: {meta['signers'][0]}\n\nPadBridge je experimentální."
             if not diagnostic['eligible_for_trial']:
-                message+='\nTato aplikace zatím není spustitelná: '+', '.join(diagnostic['unsupported_classes'][:6])
+                message+='\nNalezené překážky kompatibility: '+', '.join(diagnostic['unsupported_classes'][:6])
                 if diagnostic['native_libraries']:message+='\nNativní Android knihovny nejsou podporované.'
                 message+='\n'+'\n'.join(diagnostic['dex_errors'])
             message+='\nPožadovaná oprávnění: '+(', '.join(meta['permissions']) or 'žádná')
+            message+=f"\nDEX: {diagnostic['dex_files']} · split APK: {len(meta.get('splits',[]))}"
             message+='\nSíť je ve výchozím stavu zakázaná; povolíte ji ve správě aplikace.'
             dialog=ChoiceDialog(self,'Instalovat APK',message,[('Zpět',0),('Instalovat',1)])
             answer=dialog.exec();dialog.deleteLater()
-            if answer:self.bridge_request('install',path,callback=installed)
+            if answer:self.bridge_request('install-set',*paths,callback=installed)
         def installed(result):
             app=bridge_app(result['app']);self.library.install(app);self.set_page('apps')
             self.toast(app.title+' je nainstalovaná přes PadBridge. Kompatibilita je experimentální.')
-        self.bridge_request('inspect',path,callback=inspected)
+        self.bridge_request('inspect-set',*paths,callback=inspected)
 
     def install_bridge_demo(self):
         self.install_apk('/usr/share/padbridge/examples/basic.apk')
@@ -92,7 +98,7 @@ class PadBridgeMixin:
             internet='android.permission.INTERNET' in result['granted']
             message='PadBridge · experimentální Android runtime\nSoukromá data této aplikace jsou oddělená.\nSíť: '+('povolená' if internet else 'zakázaná')
             message+='\nPožadovaná oprávnění: '+(', '.join(result['requested']) or 'žádná')
-            choices=[('Zpět',0),('Spustit',1),('Odinstalovat',2)]
+            choices=[('Zpět',0),('Spustit',1),('Odinstalovat',2),('Diagnostika',4)]
             if 'android.permission.INTERNET' in result['requested']:choices.append(('Zakázat síť' if internet else 'Povolit síť',3))
             dialog=ChoiceDialog(self,app.title,message,choices);answer=dialog.exec();dialog.deleteLater()
             if answer==1:self.launch_user(app)
@@ -103,4 +109,18 @@ class PadBridgeMixin:
                     def removed(data):self.library.remove(app);self.set_page(self.page);self.toast(app.title+' je odinstalovaná.')
                     self.bridge_request('remove',app.target,*(['--delete-data'] if choice==2 else []),callback=removed)
             elif answer==3:self.bridge_request('permissions',app.target,json.dumps([] if internet else ['android.permission.INTERNET']),callback=lambda _:self.bridge_details(app))
+            elif answer==4:self.bridge_diagnostics(app)
         self.bridge_request('permissions',app.target,callback=loaded)
+
+    def bridge_diagnostics(self,app):
+        from .ui import ChoiceDialog
+        def loaded(result):
+            diagnostic=result['diagnostics'];message='PadBridge 0.2 · Enjarify / OpenJDK\n'
+            message+='Statická analýza nenahrazuje ověření skutečným spuštěním.\n'
+            message+='Chybějící API: '+(', '.join(diagnostic['unsupported_classes'][:25]) or 'nenalezené podle názvů tříd')
+            message+='\nNativní knihovny: '+(', '.join(diagnostic['native_libraries'][:12]) or 'žádné')
+            message+='\nDEX: '+(', '.join(diagnostic.get('dex_versions',[])))
+            message+='\n'+diagnostic['drm']
+            if result.get('last_error'):message+='\n\nPoslední běh:\n'+result['last_error'][-1800:]
+            dialog=ChoiceDialog(self,app.title+' · diagnostika',message,[('Zpět',0)]);dialog.exec();dialog.deleteLater()
+        self.bridge_request('diagnose-installed',app.target,callback=loaded)

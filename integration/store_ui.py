@@ -38,6 +38,7 @@ class StoreMixin:
             self.toast('Probíhá správa aplikace. Počkejte na dokončení.')
             return
         message = product.description + '\n\nZdroj: ' + SOURCES[product.source]
+        if product.compatibility:message+='\n\nKompatibilita: '+product.compatibility
         choices = [('Zpět', 0)]
         installed = self.product_installed(product)
         if product.kind == 'apt':
@@ -46,14 +47,15 @@ class StoreMixin:
                 choices.append(('Otevřít', 3))
         elif product.installable:
             if product.kind == 'android' and not installed:
-                message += '\nPadBridge: kompatibilita této aplikace zatím není ověřená. Google Play používá záložní Waydroid.'
+                if not product.compatibility:
+                    message += '\nPadBridge: kompatibilita zatím není ověřená. Google Play používá Waydroid.'
                 message += '\nInstalaci potvrdíte v Google Play po přihlášení. Dostupnost určuje Google Play podle zařízení.'
                 if not self.store_native or not self.store_native.get('android_known'):
                     message += '\nStav instalace zatím není ověřený. Použijte Obnovit stav po spuštění Androidu.'
-                choices += [('Otevřít Google Play', 1)]
+                choices += [('PadBridge', 6), ('Google Play', 1)]
                 if not self.store_native or not self.store_native.get('google_play'):
-                    choices += [('Připravit Google Play', 4)]
-                choices += [('Obnovit stav', 5)]
+                    choices += [('Připravit', 4)]
+                choices += [('Obnovit', 5)]
             elif product.kind == 'flatpak' and self.store_native is None and not self.preview:
                 message += '\nNačítá se stav instalace. Zkuste to za chvíli.'
             else:
@@ -74,6 +76,8 @@ class StoreMixin:
             self.prepare_android(google_play=True)
         elif answer == 5:
             self.android_task('list', callback=lambda data: self.refresh_store())
+        elif answer == 6:
+            self.install_apk()
 
     def store_change(self, product, install):
         if self.store_process:

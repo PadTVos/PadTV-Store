@@ -23,6 +23,7 @@ class Product:
     description: str
     symbol: str = 'apps'
     color: str = '#e5eff5'
+    compatibility: str = ''
 
     @property
     def installable(self):
@@ -35,6 +36,8 @@ def validate(product):
         raise ValueError('Neplatná identita aplikace v katalogu.')
     if product.source not in SOURCES or len(product.description) > 2000:
         raise ValueError('Neplatný zdroj aplikace.')
+    if not isinstance(product.compatibility,str) or len(product.compatibility)>2000:
+        raise ValueError('Neplatný popis kompatibility.')
     if product.kind == 'web':
         url = urlsplit(product.target)
         if url.scheme != 'https' or not url.hostname or url.username or url.password:
