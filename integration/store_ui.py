@@ -46,6 +46,7 @@ class StoreMixin:
                 choices.append(('Otevřít', 3))
         elif product.installable:
             if product.kind == 'android' and not installed:
+                message += '\nPadBridge: kompatibilita této aplikace zatím není ověřená. Google Play používá záložní Waydroid.'
                 message += '\nInstalaci potvrdíte v Google Play po přihlášení. Dostupnost určuje Google Play podle zařízení.'
                 if not self.store_native or not self.store_native.get('android_known'):
                     message += '\nStav instalace zatím není ověřený. Použijte Obnovit stav po spuštění Androidu.'
@@ -184,6 +185,7 @@ class StoreMixin:
         from .ui import ChoiceDialog
         dialog = ChoiceDialog(self, 'Zdroje aplikací',
             'Web Apps · webové služby v samostatném okně\nFlathub · uživatelské linuxové aplikace\n'
+            'PadBridge · místní podepsaná APK, experimentální kompatibilita\n'
             'Google Play · Android TV aplikace; vyžaduje Android s Google Play a přihlášení\n'
             'Debian APT · součásti systému\nGitHub · vlastní aplikace PadTV, zatím nepřipojeno\n'
             'PadTV Repository · komunitní aplikace, zatím nepřipojeno', [('Zpět', 0)])
