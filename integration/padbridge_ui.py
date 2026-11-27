@@ -67,7 +67,7 @@ class PadBridgeMixin:
             message=f"{meta['title']}\n{meta['package']} · {meta['version_name']}\nPodpis SHA-256: {meta['signers'][0]}\n\nPadBridge je experimentální."
             if not diagnostic['eligible_for_trial']:
                 message+='\nNalezené překážky kompatibility: '+', '.join(diagnostic['unsupported_classes'][:6])
-                if diagnostic['native_libraries']:message+='\nNativní Android knihovny nejsou podporované.'
+                if diagnostic['native_libraries']:message+='\nKompatibilitu jednotlivých nativních knihoven uvádí diagnostika APK.'
                 message+='\n'+'\n'.join(diagnostic['dex_errors'])
             message+='\nPožadovaná oprávnění: '+(', '.join(meta['permissions']) or 'žádná')
             message+=f"\nDEX: {diagnostic['dex_files']} · split APK: {len(meta.get('splits',[]))}"

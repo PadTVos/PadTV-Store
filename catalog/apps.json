@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "0.6.0",
+  "version": "0.7.0",
   "apps": [
     {
       "id": "padbridge-runtime-probe",
@@ -29,7 +29,7 @@
       "description": "Oficiální televizní aplikace od Google LLC. Instalaci dokončíte v Google Play; vyžaduje připravený Android s Google Play, přihlášení a kompatibilní zařízení.",
       "symbol": "play",
       "color": "#ff2435",
-      "compatibility": "Dodaný balíček obsahuje 32bitové x86 nativní Android knihovny. Tento ABI není v PadBridge podporovaný. GMS, Widevine a chráněné přehrávání nejsou implementované. Podrobný výsledek je v databázi kompatibility. Funkčnost aplikace: neověřeno.",
+      "compatibility": "PadBridge 0.4: podpis a instalace ověřeny, spuštění selže na ViewGroup.MarginLayoutParams. Balíček používá nepodporované 32bitové x86 knihovny a odkazuje na GMS/DRM. Rozhraní ani přehrávání nefunguje.",
       "compatibility_status": "unsupported"
     },
     {
@@ -42,7 +42,7 @@
       "description": "Oficiální televizní aplikace od Netflix, Inc. Vyžaduje předplatné a podporované zařízení. Google Play ji nemusí ve Waydroidu nabídnout; funkčnost DRM a přehrávání není ověřená.",
       "symbol": "netflix",
       "color": "#e50914",
-      "compatibility": "Dodaný balíček obsahuje ARMv7 nativní Android knihovny. Tento ABI není v PadBridge podporovaný. GMS, Widevine a chráněné přehrávání nejsou implementované. Podrobný výsledek je v databázi kompatibility. Funkčnost aplikace: neověřeno.",
+      "compatibility": "PadBridge 0.4: podpis a instalace APKM ověřeny, DEX překlad selže na limitu JVM tabulky výjimek. Balíček používá nepodporované ARMv7 knihovny. DRM a certifikace nejsou implementované; přehrávání nefunguje.",
       "compatibility_status": "unsupported"
     },
     {
