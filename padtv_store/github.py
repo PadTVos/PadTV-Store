@@ -52,7 +52,7 @@ class GitHubProvider:
         digest = hashlib.sha256()
         size = 0
         deadline = time.monotonic() + 180
-        request = Request(product.download_url, headers={'User-Agent': 'PadTV-Store/0.7', 'Accept': 'application/octet-stream'})
+        request = Request(product.download_url, headers={'User-Agent': 'PadTV-Store/0.8', 'Accept': 'application/octet-stream'})
         with self.opener.open(request, timeout=20) as response, Path(target).open('xb') as output:
             allowed(response.geturl())
             while True:

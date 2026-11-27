@@ -55,7 +55,7 @@ class PadBridgeMixin:
             self.toast('Instalace APK je dostupná v PadTV OS. Náhled Windows Android nespouští.')
             return
         if not isinstance(path,str):
-            dialog=ChoiceDialog(self,'Android runtime','PadBridge je preferovaný experimentální runtime. Waydroid používá samostatné prostředí a samostatná data.',[('Zpět',0),('PadBridge 0.4',1),('Waydroid · záloha',2)])
+            dialog=ChoiceDialog(self,'Android runtime','PadBridge spouští APK přímo v Linuxu. Backend ART nebo Enjarify vyberete ve správě nainstalované aplikace.',[('Zpět',0),('PadBridge 0.5',1),('Waydroid · záloha',2)])
             runtime=dialog.exec();dialog.deleteLater()
             if runtime==2:self.install_waydroid_apk();return
             if runtime!=1:return
@@ -98,7 +98,8 @@ class PadBridgeMixin:
             internet='android.permission.INTERNET' in result['granted']
             message='PadBridge · experimentální Android runtime\nSoukromá data této aplikace jsou oddělená.\nSíť: '+('povolená' if internet else 'zakázaná')
             message+='\nPožadovaná oprávnění: '+(', '.join(result['requested']) or 'žádná')
-            choices=[('Zpět',0),('Spustit',1),('Odinstalovat',2),('Diagnostika',4)]
+            message+='\nRuntime: '+('AOSP ART · experimentální' if app.runtime_backend=='aosp-art' else 'Enjarify / OpenJDK')
+            choices=[('Zpět',0),('Spustit',1),('Odinstalovat',2),('Diagnostika',4),('Vybrat runtime',5)]
             if 'android.permission.INTERNET' in result['requested']:choices.append(('Zakázat síť' if internet else 'Povolit síť',3))
             dialog=ChoiceDialog(self,app.title,message,choices);answer=dialog.exec();dialog.deleteLater()
             if answer==1:self.launch_user(app)
@@ -110,17 +111,42 @@ class PadBridgeMixin:
                     self.bridge_request('remove',app.target,*(['--delete-data'] if choice==2 else []),callback=removed)
             elif answer==3:self.bridge_request('permissions',app.target,json.dumps([] if internet else ['android.permission.INTERNET']),callback=lambda _:self.bridge_details(app))
             elif answer==4:self.bridge_diagnostics(app)
+            elif answer==5:self.bridge_runtime(app)
         self.bridge_request('permissions',app.target,callback=loaded)
+
+    def bridge_runtime(self,app):
+        from dataclasses import replace
+        from .ui import ChoiceDialog
+        def loaded(result):
+            art=next((b for b in result['backends'] if b['id']=='aosp-art'),{})
+            choices=[('Zpět',0),('Enjarify / OpenJDK',1),('AOSP ART' if art.get('available') else 'Stáhnout AOSP ART',2)]
+            message='Výběr platí pro tuto aplikaci. Její data zůstanou zachovaná.\nART vykonává původní DEX; kompatibilita Android API je zatím neúplná.'
+            if not art.get('available'):message+='\nPříprava stáhne přibližně 591 MB a ověří runtime. Vyžaduje internet a několik minut.'
+            dialog=ChoiceDialog(self,'Runtime · '+app.title,message,choices);answer=dialog.exec();dialog.deleteLater()
+            if answer==1 or answer==2 and art.get('available'):
+                updated=replace(app,runtime_backend='aosp-art' if answer==2 else 'enjarify-openjdk')
+                self.library.install(updated);self.bridge_details(updated)
+            elif answer==2:
+                self.toast('Připravuji AOSP ART. Počkejte na dokončení stahování a ověření.')
+                self.bridge_request('setup-art',callback=lambda _:self.bridge_runtime(app))
+        self.bridge_request('backends',callback=loaded)
 
     def bridge_diagnostics(self,app):
         from .ui import ChoiceDialog
         def loaded(result):
-            diagnostic=result['diagnostics'];message='PadBridge 0.4 · Enjarify / OpenJDK\n'
+            diagnostic=result['diagnostics'];message='PadBridge 0.5 · '+(app.runtime_backend or 'enjarify-openjdk')+'\n'
             message+='Statická analýza nenahrazuje ověření skutečným spuštěním.\n'
             message+='Chybějící API: '+(', '.join(diagnostic['unsupported_classes'][:25]) or 'nenalezené podle názvů tříd')
             message+='\nNativní knihovny: '+(', '.join(diagnostic['native_libraries'][:12]) or 'žádné')
             message+='\nDEX: '+(', '.join(diagnostic.get('dex_versions',[])))
             message+='\n'+diagnostic['drm']
+            trace=result.get('startup_trace') or {}
+            if trace:
+                phases=trace.get('stages',[])
+                message+='\nPoslední start: '+str(trace.get('status',''))
+                if phases:message+=' · '+str(phases[-1].get('stage',''))
+                reported=trace.get('application_reported') or {}
+                if reported.get('failed_phase'):message+='\nFáze hlášená aplikací: '+reported['failed_phase']
             if result.get('last_error'):message+='\n\nPoslední běh:\n'+result['last_error'][-1800:]
             dialog=ChoiceDialog(self,app.title+' · diagnostika',message,[('Zpět',0)]);dialog.exec();dialog.deleteLater()
         self.bridge_request('diagnose-installed',app.target,callback=loaded)

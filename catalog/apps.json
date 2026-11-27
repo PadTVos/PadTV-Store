@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "version": "0.7.0",
+  "version": "0.8.0",
   "apps": [
     {
       "id": "padbridge-runtime-probe",
@@ -13,7 +13,7 @@
       "symbol": "apps",
       "color": "#a6aaff",
       "compatibility_status": "experimental",
-      "compatibility": "Ověřená testovací aplikace PadBridge. Nevyžaduje Waydroid ani Google Play.",
+      "compatibility": "Ověřená testovací aplikace na Enjarify / OpenJDK. ART zatím nepodporuje použitou cestu SQLite JDBC. Nevyžaduje Waydroid ani Google Play.",
       "download_url": "https://github.com/PadTVos/PadBridge/releases/download/store-test-1/PadBridge-Runtime-Probe.apk",
       "sha256": "6bc1badb2aa449c83101ede2dd9829ef444d6a8d896ee021c12ca14deb5b43f8",
       "signer_sha256": "cfd2d522b2fe3b87e7fb0c8a33f7307eb0a5e2ae9600bef053353db1554ed51f",
@@ -29,7 +29,7 @@
       "description": "Oficiální televizní aplikace od Google LLC. Instalaci dokončíte v Google Play; vyžaduje připravený Android s Google Play, přihlášení a kompatibilní zařízení.",
       "symbol": "play",
       "color": "#ff2435",
-      "compatibility": "PadBridge 0.4: podpis a instalace ověřeny, spuštění selže na ViewGroup.MarginLayoutParams. Balíček používá nepodporované 32bitové x86 knihovny a odkazuje na GMS/DRM. Rozhraní ani přehrávání nefunguje.",
+      "compatibility": "PadBridge 0.5: podpis a instalace ověřeny. ART i Enjarify stále blokují chybějící Android API; 32bitové x86 knihovny nejsou podporované. Rozhraní ani přehrávání nefunguje. GMS a DRM nejsou implementované.",
       "compatibility_status": "unsupported"
     },
     {
@@ -42,7 +42,7 @@
       "description": "Oficiální televizní aplikace od Netflix, Inc. Vyžaduje předplatné a podporované zařízení. Google Play ji nemusí ve Waydroidu nabídnout; funkčnost DRM a přehrávání není ověřená.",
       "symbol": "netflix",
       "color": "#e50914",
-      "compatibility": "PadBridge 0.4: podpis a instalace APKM ověřeny, DEX překlad selže na limitu JVM tabulky výjimek. Balíček používá nepodporované ARMv7 knihovny. DRM a certifikace nejsou implementované; přehrávání nefunguje.",
+      "compatibility": "PadBridge 0.5: podpis a instalace APKM ověřeny. ART blokují chybějící Android API, Enjarify také limit JVM tabulky výjimek. ARMv7, DRM a certifikace nejsou podporované; přehrávání nefunguje.",
       "compatibility_status": "unsupported"
     },
     {
